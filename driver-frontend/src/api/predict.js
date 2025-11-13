@@ -1,13 +1,15 @@
 // driver-frontend/src/api/predict.js
 export async function predictRoutes({ from, to, departTime }) {
   //const API_URL = process.env.REACT_APP_ML_API_URL || 'http://localhost:5000';
-  const API_URL = process.env.REACT_APP_ML_API_URL;
+  // const API_URL = process.env.REACT_APP_ML_API_URL;
+  const API_URL = '';
 
   try {
     console.log('🔍 Calling ML API:', API_URL);
     console.log('📍 From:', from, 'To:', to);
 
-    const response = await fetch(`${API_URL}/predict`, {
+    // const response = await fetch(`${API_URL}/predict`, {
+    const response = await fetch(`/predict`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
