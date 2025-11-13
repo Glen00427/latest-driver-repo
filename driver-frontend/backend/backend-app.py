@@ -20,7 +20,8 @@ app = Flask(__name__, static_folder='../build', static_url_path='/')
 #     }
 # })
 
-MODEL_PATH = 'congestion_model_2.pkl'
+# MODEL_PATH = 'congestion_model_2.pkl'
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'congestion_model_2.pkl')
 model = None
 FEATS = None
 
