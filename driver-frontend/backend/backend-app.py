@@ -222,6 +222,16 @@ def parse_coordinates(coord_string):
     except Exception as e:
         raise ValueError(f"Invalid location: {e}")
 
+@app.route('/')
+def serve_react():
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/')
 def home():
@@ -396,18 +406,6 @@ def predict():
         import traceback
         traceback.print_exc()
         return jsonify({'error': 'An unexpected error occurred. Please try again later.'}), 500
-
-
-@app.route('/')
-def serve_react():
-    return send_from_directory(app.static_folder, 'index.html')
-
-@app.route('/<path:path>')
-def serve_static(path):
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-        return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/health', methods=['GET'])
 def health():
