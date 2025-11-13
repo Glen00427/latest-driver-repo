@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import requests
 import os
 
-app = Flask(__name__, static_folder='../build', static_url_path='')
+app = Flask(__name__, static_folder='../build', static_url_path='/')
 # CORS(app, resources={
 #     r"/*": {
 #         "origins": [
