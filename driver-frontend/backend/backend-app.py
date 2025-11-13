@@ -9,16 +9,16 @@ from datetime import datetime, timedelta
 import requests
 import os
 
-app = Flask(__name__)
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "https://fyp-trafficforecast-development-driver.onrender.com",
-            "https://curly-space-system-g4xw75qxrxq4fjj-3000.app.github.dev",
-            "http://localhost:3000"
-        ]
-    }
-})
+app = Flask(__name__, , static_folder='../build', static_url_path='')
+# CORS(app, resources={
+#     r"/*": {
+#         "origins": [
+#             "https://fyp-trafficforecast-development-driver.onrender.com",
+#             "https://curly-space-system-g4xw75qxrxq4fjj-3000.app.github.dev",
+#             "http://localhost:3000"
+#         ]
+#     }
+# })
 
 MODEL_PATH = 'congestion_model_2.pkl'
 model = None
@@ -397,6 +397,17 @@ def predict():
         traceback.print_exc()
         return jsonify({'error': 'An unexpected error occurred. Please try again later.'}), 500
 
+
+@app.route('/')
+def serve_react():
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/health', methods=['GET'])
 def health():
