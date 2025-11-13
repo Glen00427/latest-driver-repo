@@ -222,13 +222,11 @@ def parse_coordinates(coord_string):
     except Exception as e:
         raise ValueError(f"Invalid location: {e}")
 
-@app.route('/')
-def serve_react():
-    return send_from_directory(app.static_folder, 'index.html')
-
+@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def serve_static(path):
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+def serve(path):
+    # API routes are handled above, so anything here is a frontend route
+    if path and os.path.exists(os.path.join(app.static_folder, path)):
         return send_from_directory(app.static_folder, path)
     else:
         return send_from_directory(app.static_folder, 'index.html')
